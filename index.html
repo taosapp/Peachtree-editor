@@ -64,8 +64,16 @@
 
 
 <script>
+    var ptEditor = document.getElementById("ptEditor");
+    console.log(document.execCommand);
+
     var ptText = document.getElementById("ptText");
+    ptText.spellcheck = false;
     var ptconTextarea = document.getElementById("ptcontext");
+
+    var btnBold = document.getElementById("elB");
+    var btnUnderline = document.getElementById("elUnderline");
+
     var showHtml = document.getElementById("elHtml");
 
     //show html sources
@@ -80,11 +88,44 @@
         this.style.backgroundColor =  this.style.backgroundColor === '' ? 'red' : '';
     }
 
+    btnBold.addEventListener("click", Func_boldText);
+    function Func_boldText(){
+        var selTextObj = window.getSelection();
+        var range = selTextObj.getRangeAt(0);
+        var selText = selTextObj.toString();
+        //var tagWrap = "<strong></strong>"
+        var tagWrap = document.createElement("strong");
+        //selTextObj.empty();
+        if (selTextObj.rangeCount) {
+            range.surroundContents(tagWrap);
+        }
+        //range.deleteContents();
+        console.log(selTextObj, range, selText);
+        /* if (selText.parent == "strong"){
+            selText.parent.remove();
+        } */
+    }
+
+    btnUnderline.addEventListener("click", Func_boldText);
+    function Func_boldText(){
+        var selTextObj = window.getSelection();
+        var range = selTextObj.getRangeAt(0);
+        var selText = selTextObj.toString();
+        //var tagWrap = "<strong></strong>"
+        var tagWrap = document.createElement("span");
+        tagWrap.style.textDecoration = "underline";
+        if (selTextObj.rangeCount) {
+            range.surroundContents(tagWrap);
+        }
+        console.log(selTextObj, range, selText);
+    }
+
     //append Div
-    var elDiv = document.getElementById("elDiv");
+    /* var elDiv = document.getElementById("elDiv");
     elDiv.addEventListener("click", appendDiv);
     function appendDiv() {
-        var newDiv = document.createElement('div');
+        var newDiv = document.
+        createElement('div');
         newDiv.id="dbox";
         var theNewDiv = document.getElementById("dbox");
         var thePoint = window.getSelection().getRangeAt(0);
@@ -93,7 +134,7 @@
         //thePoint.insertAfter("<div></div>");
         thePoint.insertNode(newDiv);
         theNewDiv.focus();
-    }
+    } */
 
 </script>
 
