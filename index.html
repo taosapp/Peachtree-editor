@@ -15,7 +15,7 @@
         overflow: hidden;
     }
     .editortools {
-        background-color: #999; border-radius: 5px 5px 0 0;
+        background-color: #999; border-radius: 4px 4px 0 0;
         padding: 10px 20px;
     }
     .editortools button { border-radius: 3px;}
@@ -65,7 +65,7 @@
 
 <script>
     var ptEditor = document.getElementById("ptEditor");
-    console.log(document.execCommand);
+    //console.log(document.execCommand);
 
     var ptText = document.getElementById("ptText");
     ptText.spellcheck = false;
@@ -73,7 +73,11 @@
 
     var btnBold = document.getElementById("elB");
     var btnUnderline = document.getElementById("elUnderline");
-
+    var btnH1 = document.getElementById("elH1");
+    var btnH2 = document.getElementById("elH2");
+    var btnH3 = document.getElementById("elH3");
+    var btnUl = document.getElementById("elUl");
+    var btnOl = document.getElementById("elOl");
     var showHtml = document.getElementById("elHtml");
 
     //show html sources
@@ -83,7 +87,6 @@
         ptconTextarea.innerHTML = "";
         ptconTextarea.append(ptText.innerHTML);
 
-        //console.log(ptText.innerHTML);
         ptconTextarea.style.display = ptconTextarea.style.display === 'none' ? 'block' : 'none';
         this.style.backgroundColor =  this.style.backgroundColor === '' ? 'red' : '';
     }
@@ -93,31 +96,63 @@
         var selTextObj = window.getSelection();
         var range = selTextObj.getRangeAt(0);
         var selText = selTextObj.toString();
-        //var tagWrap = "<strong></strong>"
+
         var tagWrap = document.createElement("strong");
-        //selTextObj.empty();
-        if (selTextObj.rangeCount) {
+
+        if (selText.length && range.startContainer !="strong") {
             range.surroundContents(tagWrap);
+        }else if(range.startContainer=="strong"){
+            console.log("need delete strong");
         }
         //range.deleteContents();
-        console.log(selTextObj, range, selText);
+        console.log(range.startContainer, selTextObj, range, selText);
         /* if (selText.parent == "strong"){
             selText.parent.remove();
         } */
     }
 
-    btnUnderline.addEventListener("click", Func_boldText);
-    function Func_boldText(){
+    btnUnderline.addEventListener("click", Func_Underline);
+    function Func_Underline(){
+
+        var selTextObj = window.getSelection();
+        var selText = selTextObj.toString();
+        var selRange = selTextObj.getRangeAt(0);
+
+        console.log(selTextObj);
+
+        var tagWrap = document.createElement("span");
+        tagWrap.style.textDecoration = "underline";
+
+
+        if (selText.length && selTextObj.anchorNode.parentNode.tagName != "SPAN") {
+
+            //if (hasChild("span") && theSpan.style.textDecoration == "underline") {
+            //    range.removeParentTag(tagWrap);
+            //}else{
+                //selTextObj.anchorNode.innerHTML = selTextObj.anchorNode.innerText;
+
+                selRange.surroundContents(tagWrap);
+                selTextObj.removeAllRanges();
+
+            //}
+        }
+
+        /* if (selText.length && selTextObj.anchorNode.tagName != "SPAN") {
+            range.surroundContents(tagWrap);
+        }else if(selTextObj.anchorNode.tagName == "SPAN"){
+            range.startContainer.style.textDecoration = "underline";
+        } */
+    }
+
+    btnH1.addEventListener("click", Fun_H1);
+    function Fun_H1(){
         var selTextObj = window.getSelection();
         var range = selTextObj.getRangeAt(0);
         var selText = selTextObj.toString();
-        //var tagWrap = "<strong></strong>"
-        var tagWrap = document.createElement("span");
-        tagWrap.style.textDecoration = "underline";
-        if (selTextObj.rangeCount) {
+        var tagWrap = document.createElement("h1");
+        if (selText.length) {
             range.surroundContents(tagWrap);
         }
-        console.log(selTextObj, range, selText);
     }
 
     //append Div
