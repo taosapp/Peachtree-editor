@@ -93,6 +93,10 @@
 
     btnBold.addEventListener("click", Func_boldText);
     function Func_boldText(){
+        document.execCommand("bold", false, null);
+    }
+
+    /* function Func_boldText(){
         var selTextObj = window.getSelection();
         var range = selTextObj.getRangeAt(0);
         var selText = selTextObj.toString();
@@ -106,15 +110,17 @@
         }
         //range.deleteContents();
         console.log(range.startContainer, selTextObj, range, selText);
-        /* if (selText.parent == "strong"){
-            selText.parent.remove();
-        } */
-    }
+        // if (selText.parent == "strong"){
+        //    selText.parent.remove();
+        // }
+    } */
 
     btnUnderline.addEventListener("click", Func_Underline);
     function Func_Underline(){
 
-        var selTextObj = window.getSelection();
+        document.execCommand("underline", false, null);
+
+        /* var selTextObj = window.getSelection();
         var selText = selTextObj.toString();
         var selRange = selTextObj.getRangeAt(0);
 
@@ -135,24 +141,46 @@
                 selTextObj.removeAllRanges();
 
             //}
-        }
-
-        /* if (selText.length && selTextObj.anchorNode.tagName != "SPAN") {
-            range.surroundContents(tagWrap);
-        }else if(selTextObj.anchorNode.tagName == "SPAN"){
-            range.startContainer.style.textDecoration = "underline";
         } */
+
+        // if (selText.length && selTextObj.anchorNode.tagName != "SPAN") {
+        //     range.surroundContents(tagWrap);
+        // }else if(selTextObj.anchorNode.tagName == "SPAN"){
+        //     range.startContainer.style.textDecoration = "underline";
+        // }
     }
 
     btnH1.addEventListener("click", Fun_H1);
     function Fun_H1(){
         var selTextObj = window.getSelection();
-        var range = selTextObj.getRangeAt(0);
+        var selTextRange = selTextObj.getRangeAt(0);
         var selText = selTextObj.toString();
+
         var tagWrap = document.createElement("h1");
-        if (selText.length) {
-            range.surroundContents(tagWrap);
+
+        //console.log(selTextObj, selTextRange, selText);
+        console.log(selTextObj.anchorNode.parentNode.tagName, selTextObj.anchorNode.parentNode);
+
+        if (selText.length && selTextObj.anchorNode.parentNode.tagName != "H1") {
+            selTextRange.surroundContents(tagWrap);
+        } else if (selText.length && selTextObj.anchorNode.parentNode.tagName == "H1") {
+            var ul = selTextObj.anchorNode.parentNode;
+            var oTextNode = document.createTextNode(selTextObj.anchorNode.textContent);
+
+            //console.log(selTextObj.anchorNode.parentNode, oTextNode);
+
+            ul.parentNode.replaceChild(oTextNode,ul);
         }
+    }
+
+    btnUl.addEventListener("click", Fun_Ul);
+    function Fun_Ul(){
+        document.execCommand("insertUnorderedList", false, null);
+    }
+
+    btnOl.addEventListener("click", Fun_Ol);
+    function Fun_Ol(){
+        document.execCommand("insertOrderedList", false, null);
     }
 
     //append Div
